@@ -24,7 +24,8 @@ object Http4squickstartServer {
       // in the underlying routes.
       httpApp = (
         Http4squickstartRoutes.helloWorldRoutes[F](helloWorldAlg) <+>
-        Http4squickstartRoutes.jokeRoutes[F](jokeAlg)
+        Http4squickstartRoutes.jokeRoutes[F](jokeAlg) <+>
+        Http4squickstartRoutes.catRoutes[F](catAlg)
       ).orNotFound
 
       // With Middlewares in place
