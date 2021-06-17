@@ -16,7 +16,7 @@ object Http4squickstartServer {
       client <- BlazeClientBuilder[F](global).stream
       helloWorldAlg = HelloWorld.impl[F]
       jokeAlg = Jokes.impl[F](client)
-      catAlg = Cats.impl[F](client)
+      catAlg = CatsRouter.impl[F](client)
 
       // Combine Service Routes into an HttpApp.
       // Can also be done via a Router if you

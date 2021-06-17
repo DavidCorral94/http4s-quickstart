@@ -3,11 +3,12 @@ package com.example.http4squickstart
 import cats.effect.Sync
 import cats.implicits._
 import org.http4s.HttpRoutes
+import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import org.http4s.dsl.Http4sDsl
 
 object Http4squickstartRoutes {
 
-  def catRoutes[F[_]: Sync](C: Cats[F]): HttpRoutes[F] = {
+  def catRoutes[F[_]: Sync](C: CatsRouter[F]): HttpRoutes[F] = {
     val dsl = new Http4sDsl[F] {}
     import dsl._
     HttpRoutes.of[F] {
@@ -16,16 +17,11 @@ object Http4squickstartRoutes {
           cat <- C.get
           resp <- Ok(cat)
         } yield resp
-      case GET -> Root / "cat" / "dummy" =>
-        for {
-        // EL PROBLEMA ES EL ARRAY!!!!!
-          resp <- Ok("""[{"breeds":[],"id":"1","url":"http://google.com","width":1,"height":1}]""")
-        } yield resp
     }
   }
 
   def jokeRoutes[F[_]: Sync](J: Jokes[F]): HttpRoutes[F] = {
-    val dsl = new Http4sDsl[F]{}
+    val dsl = new Http4sDsl[F] {}
     import dsl._
     HttpRoutes.of[F] {
       case GET -> Root / "joke" =>
@@ -37,7 +33,7 @@ object Http4squickstartRoutes {
   }
 
   def helloWorldRoutes[F[_]: Sync](H: HelloWorld[F]): HttpRoutes[F] = {
-    val dsl = new Http4sDsl[F]{}
+    val dsl = new Http4sDsl[F] {}
     import dsl._
     HttpRoutes.of[F] {
       case GET -> Root / "hello" / name =>
